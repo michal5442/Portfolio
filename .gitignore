@@ -1,0 +1,33 @@
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+TestResults/
+*.cache
+*.log
+*.sqlite
+node_modules/
+dist/
+publish/
+env.local
+env.*.local
+.DS_Store
+*.db
+*.bak
+
+# Rider
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+
+# Visual Studio temp files
+*_i.c
+*_p.c
+*_h.h
