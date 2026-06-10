@@ -19,8 +19,13 @@ namespace Portfolio.Controllers
         [HttpPost]
         public async Task<ActionResult<AviationProject>> Create([FromBody] AviationProject project)
         {
+             // להוסיף בדיקות על השדות שנכנסו...
             var created = await _repository.InsertProject(project);
-            return Created(string.Empty, created);
+            if (created == null)
+            {
+                return BadRequest("Failed to create project.");
+            }
+            return Ok(created);
         }
     }
 }
