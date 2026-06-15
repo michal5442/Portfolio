@@ -1,13 +1,16 @@
+using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Portfolio.Enums;
 
-namespace Portfolio.Entities
+
+namespace Portfolio.Models
 {
-    public class AviationProject
+    public class Project
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid Id { get; set; }
 
         public int IdntAgaff { get; set; }
 
@@ -17,11 +20,12 @@ namespace Portfolio.Entities
 
         public string YechidaMevatzat { get; set; }
 
-        public string Project { get; set; }
+        public string ProjectName { get; set; }
 
         public string Teur { get; set; }
 
-        public string Maslol { get; set; }
+       // [BsonRepresentation(BsonType.String)]
+        public Maslol Maslol { get; set; }
 
         public int IdntMaslol { get; set; }
 
@@ -34,5 +38,13 @@ namespace Portfolio.Entities
         public int CoachAdam { get; set; }
 
         public string Hearot { get; set; }
+        
+        public bool Active { get; set; }
+         
+        public int Year { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }
