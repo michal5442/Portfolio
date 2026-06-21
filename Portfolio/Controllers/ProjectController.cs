@@ -19,8 +19,9 @@ namespace Portfolio.Controllers
         [HttpPost("insertProject")]
         public async Task<ActionResult<Project>> InsertProject([FromBody] Project project)
         {
-             if(project is null)
-                return BadRequest("Request body must not be null.");
+             
+            // if(project is null)
+            //     return BadRequest("Request body must not be null.");
 
             var created = await _repository.InsertProject(project);
             if (created == null)
@@ -33,8 +34,8 @@ namespace Portfolio.Controllers
         [HttpPut("updateProject")]
          public async Task<ActionResult<Project>> UpdateProject([FromBody] Project project)
         {    
-            if (project is null)
-                return BadRequest("Request body must not be null.");  
+            // if (project is null)
+            //     return BadRequest("Request body must not be null.");
             try
             {
                 var updatedProject = await _repository.UpdateProject(project);
