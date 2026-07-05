@@ -15,17 +15,15 @@ namespace Portfolio.Repositories
 
         public async Task<Project> InsertProject(Project project)
         {
-            if (project == null)
-                throw new ArgumentNullException(nameof(project));
-
             project.Id = Guid.NewGuid();
-            project.CreatedAt = DateTime.UtcNow;
-            project.UpdatedAt = DateTime.UtcNow;
+            project.Active = true;
+            project.CreatedAt = DateTime.Now;
+            project.UpdatedAt = DateTime.Now;
 
             await _collection.InsertOneAsync(project);
-
             return project;
         }
+
 
         public async Task<Project> UpdateProject(Project project)
         {
