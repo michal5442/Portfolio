@@ -15,18 +15,24 @@ namespace Portfolio.Repositories
 
         public async Task<Project> InsertProject(Project project)
         {
-            project.Id = Guid.NewGuid();
-            project.CreatedAt = DateTime.Now;
-            project.UpdatedAt = DateTime.Now;
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
 
-           // project.Maslol =  project.Maslol.ToString();
+            project.Id = Guid.NewGuid();
+            project.CreatedAt = DateTime.UtcNow;
+            project.UpdatedAt = DateTime.UtcNow;
+
             await _collection.InsertOneAsync(project);
+
             return project;
         }
 
         public async Task<Project> UpdateProject(Project project)
         {
-            project.UpdatedAt = DateTime.Now;
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
+            project.UpdatedAt = DateTime.UtcNow;
             var result = await _collection.ReplaceOneAsync(p => p.Id == project.Id, project);
 
             if (result.MatchedCount == 0)

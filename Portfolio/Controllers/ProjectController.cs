@@ -20,15 +20,17 @@ namespace Portfolio.Controllers
         public async Task<ActionResult<Project>> InsertProject([FromBody] Project project)
         {
              
-            // if(project is null)
-            //     return BadRequest("Request body must not be null.");
-
-            var created = await _repository.InsertProject(project);
-            if (created == null)
+            if(project is null)
+                return BadRequest("Request body must not be null.");
+            try
             {
-                return BadRequest("Failed to create project.");
+                var created = await _repository.InsertProject(project);
+                return Ok(created);
             }
-            return Ok(created);
+            catch (Exception)
+            {
+                return StatusCode(500, "Failed to create project.");
+            }
         }
 
         [HttpPut("updateProject")]
