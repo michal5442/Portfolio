@@ -21,6 +21,7 @@ namespace Portfolio.Repositories
             project.UpdatedAt = DateTime.UtcNow;
 
             await _collection.InsertOneAsync(project);
+
             return project;
         }
 
@@ -36,7 +37,7 @@ namespace Portfolio.Repositories
 
             if (result.MatchedCount == 0)
             {
-                throw new KeyNotFoundException($"Project with ID {project.Id} was not found.");
+                return null;
             }
 
             return project;
@@ -49,18 +50,27 @@ namespace Portfolio.Repositories
 
         public async Task<Project> GetProjectById(string id)
         {
-            Guid guidId = Guid.Parse(id);
-            return await _collection.Find(p => p.Id == guidId).FirstOrDefaultAsync();
+            if (!Guid.TryParse(id, out var guidId))
+            {
+                return null;
+            }
+
+            var project = await _collection.Find(p => p.Id == guidId).FirstOrDefaultAsync();
+            return project;
         }
 
         public async Task<IEnumerable<Project>> GetProjectsByYear(int year)
         {
-            return await _collection.Find(p => p.Year == year).ToListAsync();
+            var projects = await _collection.Find(p => p.Year == year).ToListAsync();
+            return projects;
         }
 
         public async Task<Project> DeleteProject(string id)
         {
-            Guid guidId = Guid.Parse(id);
+            if (!Guid.TryParse(id, out var guidId))
+            {
+                return null;
+            }
 
             var update = Builders<Project>.Update
                 .Set(p => p.Active, false)
