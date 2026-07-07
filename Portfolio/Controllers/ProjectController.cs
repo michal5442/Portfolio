@@ -28,7 +28,7 @@ namespace Portfolio.Controllers
                 return BadRequest("Request body must not be null.");
             }
             var created = await _repository.InsertProject(project);
-            _logger.LogInformation("Project created. ProjectId: {ProjectId}", created.Id);
+            _logger.LogInformation("Project created. ProjectId: {ProjectId}. PerformedBy: {PerformedBy}", created.Id, GetAuditUserIdentity());
             return Ok(created);
         }
 
@@ -49,7 +49,7 @@ namespace Portfolio.Controllers
                 return NotFound($"Project with ID {project.Id} was not found.");
             }
 
-            _logger.LogInformation("Project updated. ProjectId: {ProjectId}", project.Id);
+            _logger.LogInformation("Project updated. ProjectId: {ProjectId}. PerformedBy: {PerformedBy}", project.Id, GetAuditUserIdentity());
             return Ok(updatedProject);
         }
 
@@ -119,9 +119,20 @@ namespace Portfolio.Controllers
                 return NotFound($"Project with ID '{id}' was not found.");
             }
 
-            _logger.LogInformation("Project deleted. ProjectId: {ProjectId}", id);
+            _logger.LogInformation("Project deleted. ProjectId: {ProjectId}. PerformedBy: {PerformedBy}", id, GetAuditUserIdentity());
             return Ok(deleted);
-        }                                     
+        }
+
+        private string GetAuditUserIdentity()
+        {
+            var user = HttpContext?.User;
+            if (user?.Identity?.IsAuthenticated == true)
+            {
+                return user.Identity?.Name ?? user.FindFirst("sub")?.Value ?? "authenticated-user";
+            }
+
+            return "anonymous";
+        }
     }
 }
 

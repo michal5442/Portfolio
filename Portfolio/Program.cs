@@ -1,11 +1,27 @@
 using MongoDB.Driver;
+using Portfolio.Middleware;
 using Portfolio.Repositories;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+
+builder.Host.UseSerilog((context, services, loggerConfiguration) =>
+{
+    loggerConfiguration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithProperty("Application", "PortfolioApi")
+        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName);
+
+    if (context.HostingEnvironment.IsDevelopment())
+    {
+        loggerConfiguration.WriteTo.Console(
+            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}");
+    }
+});
 
 builder.Services.AddControllers();
 
@@ -27,30 +43,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-var logger = app.Services.GetRequiredService<ILogger<Program>>();
-app.UseExceptionHandler(errorApp =>
-{
-    errorApp.Run(async context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/json";
 
-        var exceptionHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
-        var ex = exceptionHandlerFeature?.Error;
-        if (ex != null)
-        {
-            logger.LogError(ex, "Unhandled exception occurred while processing request.");
-        }
-
-        var result = JsonSerializer.Serialize(new { error = "An unexpected error occurred." });
-        await context.Response.WriteAsync(result);
-    });
-});
-
+app.UseGlobalExceptionHandling();
+app.UseCorrelationId();
+app.UseRequestLogging();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+finally
+{
+    Log.CloseAndFlush();
+}

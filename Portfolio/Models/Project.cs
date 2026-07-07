@@ -24,14 +24,13 @@ namespace Portfolio.Models
 
         public string Teur { get; set; }
 
-       // [BsonRepresentation(BsonType.String)]
         public Maslol Maslol { get; set; }
 
         public int IdntMaslol { get; set; }
 
         public bool LogHemsheci { get; set; }
 
-        public int TotalTakzuvCoachAdam { get; set; }
+        public int TotalTakzivCoachAdam { get; set; }
 
         public int TotalTakzivRechesh { get; set; }
 
