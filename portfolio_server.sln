@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36623.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio", "Portfolio\Portfolio.csproj", "{200B548E-B3A5-429D-AB11-226838C1860F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolioportfolio_server", "portfolio_server\portfolio_server.csproj", "{200B548E-B3A5-429D-AB11-226838C1860F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
