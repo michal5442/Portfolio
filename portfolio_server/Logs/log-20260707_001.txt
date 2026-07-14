@@ -1,0 +1,219 @@
+2026-07-07 09:47:34.930 +03:00 [ERR] Hosting failed to start {"EventId":{"Id":11,"Name":"HostedServiceStartupFaulted"},"SourceContext":"Microsoft.Extensions.Hosting.Internal.Host","Application":"PortfolioApi","Environment":"Development"}
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5016: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-07-07 09:58:33.791 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUKKHEHGL:00000001","ConnectionId":"0HNMRUKKHEHGL","CorrelationId":"613bae76f4bc4f0d9aa2dc95c9d43c60","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 09:58:33.917 +03:00 [WRN] Failed to determine the https port for redirect. {"EventId":{"Id":3,"Name":"FailedToDeterminePort"},"SourceContext":"Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware","RequestId":"0HNMRUKKHEHGL:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUKKHEHGL","CorrelationId":"613bae76f4bc4f0d9aa2dc95c9d43c60","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 09:58:34.687 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: ddc94b6f9ae74e088f186f0f68475025 {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUKKHEHGL:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUKKHEHGL","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzuvCoachAdam' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 09:58:34.820 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUKKHEHGM:00000001","ConnectionId":"0HNMRUKKHEHGM","CorrelationId":"44e978271fc0459db24b454c1c136910","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 09:58:34.933 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: 6c520c6e48d040398c852f50f5bd3e65 {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUKKHEHGM:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUKKHEHGM","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzuvCoachAdam' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 10:03:20.797 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUNA29JJQ:00000001","ConnectionId":"0HNMRUNA29JJQ","CorrelationId":"e9c6a5f380294fcf921e66d471a554de","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:03:21.017 +03:00 [WRN] Failed to determine the https port for redirect. {"EventId":{"Id":3,"Name":"FailedToDeterminePort"},"SourceContext":"Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware","RequestId":"0HNMRUNA29JJQ:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUNA29JJQ","CorrelationId":"e9c6a5f380294fcf921e66d471a554de","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:03:22.057 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: c8620e19e95745adae2ff8b9e18148d4 {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUNA29JJQ:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUNA29JJQ","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzivRechesh' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 10:03:22.350 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUNA29JJR:00000001","ConnectionId":"0HNMRUNA29JJR","CorrelationId":"cf09e34eb21b42c095b62aa52b00b461","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:03:22.518 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: a2c57303175d421daa3532c786971046 {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUNA29JJR:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUNA29JJR","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzivRechesh' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 10:14:01.354 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUNA29JJS:00000001","ConnectionId":"0HNMRUNA29JJS","CorrelationId":"5c5d1e4681b142fe80173908beed05fb","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:14:01.462 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: 47414b1edb8a4c9388a135e708ad0f1d {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUNA29JJS:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUNA29JJS","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzivRechesh' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 10:14:01.555 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUNA29JJT:00000001","ConnectionId":"0HNMRUNA29JJT","CorrelationId":"753e6699c3314543b11ea0aaa6b7771e","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:14:01.631 +03:00 [ERR] Unhandled exception occurred while processing request. CorrelationId: b3d59dc87cc7400498ace4fcc8452e59 {"SourceContext":"Portfolio.Middleware.ExceptionHandlingMiddleware","RequestId":"0HNMRUNA29JJT:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUNA29JJT","Application":"PortfolioApi","Environment":"Development"}
+System.FormatException: Element 'TotalTakzivRechesh' does not match any field or property of class Portfolio.Models.Project.
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.CreateCursor(IChannelSourceHandle channelSource, IChannelHandle channel, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, RetryableReadContext context)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Portfolio.Repositories.ProjectRepository.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Repositories\ProjectRepository.cs:line 64
+   at Portfolio.Controllers.ProjectController.GetProjectsByYear(Int32 year) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Controllers\ProjectController.cs:line 94
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Portfolio.Middleware.RequestLoggingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 76
+   at Portfolio.Middleware.CorrelationIdMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\RequestLoggingMiddleware.cs:line 31
+   at Portfolio.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in C:\Users\user1\Desktop\all\Portfolio\Portfolio\Middleware\ExceptionHandlingMiddleware.cs:line 27
+2026-07-07 10:17:26.979 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUV67GGG5:00000001","ConnectionId":"0HNMRUV67GGG5","CorrelationId":"2acf06f4ebf44525b4dac9667a768e01","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:17:27.781 +03:00 [WRN] Failed to determine the https port for redirect. {"EventId":{"Id":3,"Name":"FailedToDeterminePort"},"SourceContext":"Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware","RequestId":"0HNMRUV67GGG5:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUV67GGG5","CorrelationId":"2acf06f4ebf44525b4dac9667a768e01","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:17:29.352 +03:00 [INF] Retrieved 12 projects for year 2026. {"SourceContext":"Portfolio.Controllers.ProjectController","ActionId":"58d759bd-7955-4b69-9154-cf5295209400","ActionName":"Portfolio.Controllers.ProjectController.GetProjectsByYear (Portfolio)","RequestId":"0HNMRUV67GGG5:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUV67GGG5","CorrelationId":"2acf06f4ebf44525b4dac9667a768e01","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:17:29.653 +03:00 [INF] Request received. Method: GET, Path: /api/project/getProjectsByYear/2026, QueryString: , RouteValues: action=[REDACTED], controller=[REDACTED], year=[REDACTED] {"SourceContext":"Portfolio.Middleware.RequestLoggingMiddleware","RequestId":"0HNMRUV67GGG6:00000001","ConnectionId":"0HNMRUV67GGG6","CorrelationId":"c5abdd8eb7dc4ba68b9357585032d366","Application":"PortfolioApi","Environment":"Development"}
+2026-07-07 10:17:29.755 +03:00 [INF] Retrieved 12 projects for year 2026. {"SourceContext":"Portfolio.Controllers.ProjectController","ActionId":"58d759bd-7955-4b69-9154-cf5295209400","ActionName":"Portfolio.Controllers.ProjectController.GetProjectsByYear (Portfolio)","RequestId":"0HNMRUV67GGG6:00000001","RequestPath":"/api/project/getProjectsByYear/2026","ConnectionId":"0HNMRUV67GGG6","CorrelationId":"c5abdd8eb7dc4ba68b9357585032d366","Application":"PortfolioApi","Environment":"Development"}
