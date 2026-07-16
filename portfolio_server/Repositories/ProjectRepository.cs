@@ -15,6 +15,9 @@ namespace portfolio_server.Repositories
 
         public async Task<Project> InsertProject(Project project)
         {
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+
             PrepareForInsert(project);
 
             await _collection.InsertOneAsync(project);
@@ -75,7 +78,7 @@ namespace portfolio_server.Repositories
                 .Select(source => CloneForYear(source, year))
                 .ToList();
 
-            if (copiedProjects.Count == 0)
+            if (copiedProjects?.Count == 0)
             {
                 return copiedProjects;
             }
@@ -85,27 +88,36 @@ namespace portfolio_server.Repositories
             return copiedProjects;
         }
 
-        public async Task<Project> DeleteProject(string id)
+        public async Task<Project?> DeleteProject(string projectId)
         {
-            if (!Guid.TryParse(id, out var guidId))
+            if (!Guid.TryParse(projectId, out var guidId))
             {
                 return null;
             }
 
-            var update = Builders<Project>.Update
-                .Set(p => p.Active, false)
-                .Set(p => p.UpdatedAt, DateTime.UtcNow);
+            var project = await _collection.Find(p => p.Id == guidId && p.Active).FirstOrDefaultAsync();
 
-            var options = new FindOneAndUpdateOptions<Project>
+            if (project == null)
             {
-                ReturnDocument = ReturnDocument.After
-            };
+                return null;
+            }
 
-            var updated = await _collection.FindOneAndUpdateAsync<Project>(
-                p => p.Id == guidId, update, options);
+            project.Active = false;
+            project.UpdatedAt = DateTime.UtcNow;
 
-            return updated;
+            var result = await _collection.ReplaceOneAsync(
+                p => p.Id == guidId,
+                project);
+
+            if (result.MatchedCount == 0)
+            {
+                return null;
+            }
+
+            return project;
+
         }
+
 
 
         private static void PrepareForInsert(Project project)
