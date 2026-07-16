@@ -36,14 +36,11 @@ namespace portfolio_server.Middleware
 
         private static string ResolveCorrelationId(HttpContext context)
         {
-            if (context.Request.Headers.TryGetValue(CorrelationIdMiddleware.HeaderName, out var incoming) && !string.IsNullOrWhiteSpace(incoming))
+            if (context.Items.TryGetValue(CorrelationIdMiddleware.ItemsKey, out var existing) &&
+                existing is string existingId &&
+                !string.IsNullOrWhiteSpace(existingId))
             {
-                return incoming.ToString();
-            }
-
-            if (context.Request.Headers.TryGetValue("X-Request-ID", out incoming) && !string.IsNullOrWhiteSpace(incoming))
-            {
-                return incoming.ToString();
+                return existingId;
             }
 
             return Guid.NewGuid().ToString("N");
@@ -53,7 +50,6 @@ namespace portfolio_server.Middleware
         {
             if (context.Response.HasStarted)
             {
-                context.Response.Headers[CorrelationIdMiddleware.HeaderName] = correlationId;
                 return Task.CompletedTask;
             }
 
