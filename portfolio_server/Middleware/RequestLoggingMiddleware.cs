@@ -13,6 +13,8 @@ namespace portfolio_server.Middleware
         private readonly ILogger<CorrelationIdMiddleware> _logger;
         public const string HeaderName = "X-Correlation-ID";
 
+        public const string ItemsKey = "CorrelationId";
+
         public CorrelationIdMiddleware(RequestDelegate next, ILogger<CorrelationIdMiddleware> logger)
         {
             _next = next;
@@ -22,6 +24,9 @@ namespace portfolio_server.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             var correlationId = ResolveCorrelationId(context);
+
+            context.Items[ItemsKey] = correlationId;
+
             context.Response.Headers[HeaderName] = correlationId;
 
             using (LogContext.PushProperty("CorrelationId", correlationId))
