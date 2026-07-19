@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using portfolio_server.Models;
-using portfolio_server.Repositories;
+using portfolio_server.Interfaces;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -54,21 +54,9 @@ namespace portfolio_server.Controllers
             return Ok(updatedProject);
         }
 
-        [HttpGet("getProjectById/{id}")]
-        public async Task<ActionResult<Project>> GetProjectById([FromRoute] string id)
+        [HttpGet("getProjectById/{id:guid}")]
+        public async Task<ActionResult<Project>> GetProjectById([FromRoute] Guid id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                _logger.LogWarning("Empty project ID provided.");
-                return BadRequest("Project ID must not be empty.");
-            }
-
-            if (!Guid.TryParse(id, out _))
-            {
-                _logger.LogWarning("Invalid project ID format. ProjectId: {ProjectId}", id);
-                return BadRequest("Invalid project ID format.");
-            }
-
             var project = await _repository.GetProjectById(id);
 
             if (project is null)
@@ -121,21 +109,9 @@ namespace portfolio_server.Controllers
             return Ok(copiedProjects);
         }
       
-        [HttpDelete("deleteProject/{id}")]
-        public async Task<ActionResult<Project>> DeleteProject([FromRoute] string id)
+        [HttpDelete("deleteProject/{id:guid}")]
+        public async Task<ActionResult<Project>> DeleteProject([FromRoute] Guid id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                _logger.LogWarning("Empty project ID provided.");
-                return BadRequest("Project ID must not be empty.");
-            }
-
-            if (!Guid.TryParse(id, out _))
-            {
-                _logger.LogWarning("Invalid project ID format. ProjectId: {ProjectId}", id);
-                return BadRequest("Invalid project ID format.");
-            }
-
             var deleted = await _repository.DeleteProject(id);
 
             if (deleted is null)

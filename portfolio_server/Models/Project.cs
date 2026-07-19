@@ -12,13 +12,21 @@ namespace portfolio_server.Models
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
 
-        public int IdntAgaff { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid IdntAgaff { get; set; }
 
-        public string Agaff { get; set; }
+        public string? AgaffName { get; set; } 
 
-        public int IdntYechidaMevatzat { get; set; }
+        [MongoDB.Bson.Serialization.Attributes.BsonIgnore]
+        public Agaff? Agaff { get; set; }
 
-        public string YechidaMevatzat { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid IdntTsevetMevatsea { get; set; }
+
+        public string? TsevetMevatseaName { get; set; }
+
+        [MongoDB.Bson.Serialization.Attributes.BsonIgnore]
+        public TsevetMevatsea? TsevetMevatsea { get; set; }
 
         public string ProjectName { get; set; }
 

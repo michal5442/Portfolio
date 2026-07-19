@@ -1,24 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using portfolio_server.Models;
+using portfolio_server.Interfaces;
+using portfolio_server.Repositories;
 
 namespace portfolio_server.Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
         private readonly IMongoCollection<Project> _collection;
+        private readonly IAgaffRepository _agaffRepository;
+        private readonly ITsevetMevatseaRepository _tsevetRepository;
 
-        public ProjectRepository(IMongoDatabase database)
+        public ProjectRepository(IMongoDatabase database,
+            IAgaffRepository agaffRepository,
+            ITsevetMevatseaRepository tsevetRepository)
         {
             _collection = database.GetCollection<Project>("Projects");
+            _agaffRepository = agaffRepository;
+            _tsevetRepository = tsevetRepository;
+
         }
 
         public async Task<Project> InsertProject(Project project)
         {
             if (project == null)
                 throw new ArgumentNullException(nameof(project));
-
-            PrepareForInsert(project);
+            await PrepareForInsert(project);
 
             await _collection.InsertOneAsync(project);
 
@@ -26,7 +37,7 @@ namespace portfolio_server.Repositories
         }
 
 
-        public async Task<Project> UpdateProject(Project project)
+        public async Task<Project?> UpdateProject(Project project)
         {
             if (project == null)
                 throw new ArgumentNullException(nameof(project));
@@ -43,14 +54,9 @@ namespace portfolio_server.Repositories
             return project;
         }
 
-        public async Task<Project> GetProjectById(string id)
+        public async Task<Project?> GetProjectById(Guid id)
         {
-            if (!Guid.TryParse(id, out var guidId))
-            {
-                return null;
-            }
-
-            var project = await _collection.Find(p => p.Id == guidId && p.Active).FirstOrDefaultAsync();
+            var project = await _collection.Find(p => p.Id == id && p.Active).FirstOrDefaultAsync();
             return project;
         }
 
@@ -62,7 +68,7 @@ namespace portfolio_server.Repositories
 
         public async Task<IEnumerable<Project>> GetAllProjects()
         {
-            var projects = await _collection.Find(p => p.Active).ToListAsync();
+            var projects = await _collection.Find(_ => true).ToListAsync();
             return projects;
         }
 
@@ -74,11 +80,13 @@ namespace portfolio_server.Repositories
                 .Find(p => p.Year == previousYear && p.Active)
                 .ToListAsync();
 
-            var copiedProjects = sourceProjects
-                .Select(source => CloneForYear(source, year))
-                .ToList();
+            var copiedProjects = new List<Project>(sourceProjects.Count);
+            foreach (var source in sourceProjects)
+            {
+                copiedProjects.Add(await CloneForYear(source, year));
+            }
 
-            if (copiedProjects?.Count == 0)
+            if (copiedProjects.Count == 0)
             {
                 return copiedProjects;
             }
@@ -88,14 +96,9 @@ namespace portfolio_server.Repositories
             return copiedProjects;
         }
 
-        public async Task<Project?> DeleteProject(string projectId)
+        public async Task<Project?> DeleteProject(Guid projectId)
         {
-            if (!Guid.TryParse(projectId, out var guidId))
-            {
-                return null;
-            }
-
-            var project = await _collection.Find(p => p.Id == guidId && p.Active).FirstOrDefaultAsync();
+            var project = await _collection.Find(p => p.Id == projectId && p.Active).FirstOrDefaultAsync();
 
             if (project == null)
             {
@@ -106,7 +109,7 @@ namespace portfolio_server.Repositories
             project.UpdatedAt = DateTime.UtcNow;
 
             var result = await _collection.ReplaceOneAsync(
-                p => p.Id == guidId,
+                p => p.Id == projectId,
                 project);
 
             if (result.MatchedCount == 0)
@@ -118,24 +121,26 @@ namespace portfolio_server.Repositories
 
         }
 
-
-
-        private static void PrepareForInsert(Project project)
+        private async Task PrepareForInsert(Project project)
         {
             project.Id = Guid.NewGuid();
             project.Active = true;
+            var agaff = await _agaffRepository.GetAgaffById(project.IdntAgaff);
+            project.AgaffName = agaff?.AgaffName;
+            var tsevet = await _tsevetRepository.GetTsevetMevatseaById(project.IdntTsevetMevatsea);
+            project.TsevetMevatseaName = tsevet?.TsevetMevatseaName;
             project.CreatedAt = DateTime.UtcNow;
             project.UpdatedAt = DateTime.UtcNow;
         }
 
-        private static Project CloneForYear(Project source, int year)
+        private async Task<Project> CloneForYear(Project source, int year)
         {
             var clone = new Project
             {
                 IdntAgaff = source.IdntAgaff,
-                Agaff = source.Agaff,
-                IdntYechidaMevatzat = source.IdntYechidaMevatzat,
-                YechidaMevatzat = source.YechidaMevatzat,
+                AgaffName = source.AgaffName,
+                IdntTsevetMevatsea = source.IdntTsevetMevatsea,
+                TsevetMevatseaName = source.TsevetMevatseaName,
                 ProjectName = source.ProjectName,
                 Teur = source.Teur,
                 Maslol = source.Maslol,
@@ -148,7 +153,7 @@ namespace portfolio_server.Repositories
                 Year = year
             };
 
-            PrepareForInsert(clone);
+            await PrepareForInsert(clone);
 
             return clone;
         }

@@ -1,6 +1,7 @@
 using MongoDB.Driver;
 using portfolio_server.Middleware;
 using portfolio_server.Repositories;
+using portfolio_server.Interfaces;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -35,6 +36,8 @@ builder.Services.AddSingleton<IMongoClient>(_ => new MongoClient(mongoConnection
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(mongoDatabaseName));
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IAgaffRepository, AgaffRepository>();
+builder.Services.AddScoped<ITsevetMevatseaRepository, TsevetMevatseaRepository>();
 
 var app = builder.Build();
 
